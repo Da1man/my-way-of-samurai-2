@@ -2,6 +2,12 @@ import React from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
+import * as axios from "axios";
+
+import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
+
+
+
 
 const Dialogs = (props) => {
 
@@ -20,6 +26,21 @@ const Dialogs = (props) => {
         props.updateNewMessageBody(body);
     }
 
+    let api = new WooCommerceRestApi({
+        url: "https://fixrolls.ru",
+        consumerKey: "ck_682e8df99b3b8c0906b5252521bfc762066a87cf",
+        consumerSecret: "cs_5fa872dda649995e52655bd445c517f3ac0e59e3",
+        version: "wc/v3"
+    });
+
+    let apiAction = () => {
+        api.get("products", {
+            per_page: 20, // 20 products per page
+        }).then((response) => {
+            console.log(response)
+    })
+    }
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -32,6 +53,7 @@ const Dialogs = (props) => {
                                    onChange={onNewMessageChange}
                                    placeholder='Enter your message'></textarea></div>
                     <div><button onClick={onSendMessageClick}>Send</button></div>
+                    <div><button onClick={apiAction}>WP BUTTON</button></div>
                 </div>
             </div>
         </div>
